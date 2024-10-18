@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+    <!-- Top MenuBar (Navigation Bar) -->
+    <top>
+        <MenuBar>
+            <!-- Menu for Usuarios -->
+            <Menu text="Usuarios">
+                <MenuItem onAction="#handleUsuario" text="Gestionar Usuario" />
+            </Menu>
+
+            <!-- Menu for Clientes -->
+            <Menu text="Clientes">
+                <MenuItem onAction="#handleCliente" text="Gestionar Cliente" />
+            </Menu>
+
+            <!-- Menu for Productos -->
+            <Menu text="Productos">
+                <MenuItem onAction="#handleProducto" text="Gestionar Producto" />
+            </Menu>
+
+            <!-- Menu for Pedidos -->
+            <Menu text="Pedidos">
+                <MenuItem onAction="#handlePedido" text="Gestionar Pedido" />
+            </Menu>
+
+            <!-- Menu for Reportes -->
+            <Menu text="Reportes">
+                <MenuItem onAction="#handleReporte" text="Generar Reporte" />
+            </Menu>
+
+            <!-- Menu for Exit -->
+            <Menu text="Salir">
+                <MenuItem text="Cerrar aplicación" />
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <!-- Aquí estará el contenido principal que cambiará dinámicamente -->
+    <center>
+        <BorderPane fx:id="mainContent" prefHeight="575.0" prefWidth="804.0" />
+    </center>
+</BorderPane>

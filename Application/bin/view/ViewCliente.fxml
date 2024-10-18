@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.ClienteController">
+    <children>
+        <!-- Contenedor principal -->
+        <VBox prefHeight="575.0" prefWidth="800.0" spacing="10" style="-fx-padding: 20; ">
+            <!-- Título -->
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Gestión de Clientes" />
+            
+            <!-- Botones de CRUD -->
+            <HBox spacing="10">
+                <Button onAction="#crearCliente" text="Crear" />
+                <Button onAction="#leerCliente" text="Leer" />
+                <Button onAction="#actualizarCliente" text="Actualizar" />
+                <Button onAction="#eliminarCliente" text="Eliminar" />
+            </HBox>
+            
+            <!-- Tabla para mostrar Clientes -->
+            <TableView fx:id="tablaClientes">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" />
+                    <TableColumn fx:id="colNombre" text="Nombre" />
+                    <TableColumn fx:id="colEmail" text="Email" />
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>
