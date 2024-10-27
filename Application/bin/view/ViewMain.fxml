@@ -8,25 +8,25 @@
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <!-- Top MenuBar (Navigation Bar) -->
     <top>
-        <MenuBar>
+        <MenuBar style="-fx-background-color: aliceblue;">
             <!-- Menu for Usuarios -->
-            <Menu text="Usuarios">
+            <Menu text="Usuarios" fx:id="menuUsuarios">
                 <MenuItem onAction="#handleUsuario" text="Gestionar Usuario" />
             </Menu>
-
-            <!-- Menu for Clientes -->
-            <Menu text="Clientes">
-                <MenuItem onAction="#handleCliente" text="Gestionar Cliente" />
-            </Menu>
+            
+            <!-- Menu for Pedidos -->
+            <Menu text="Pedidos">
+                <MenuItem onAction="#handlePedido" text="Gestionar Pedido" />
+            </Menu>            
 
             <!-- Menu for Productos -->
             <Menu text="Productos">
                 <MenuItem onAction="#handleProducto" text="Gestionar Producto" />
             </Menu>
 
-            <!-- Menu for Pedidos -->
-            <Menu text="Pedidos">
-                <MenuItem onAction="#handlePedido" text="Gestionar Pedido" />
+            <!-- Menu for Clientes -->
+            <Menu text="Clientes">
+                <MenuItem onAction="#handleCliente" text="Gestionar Cliente" />
             </Menu>
 
             <!-- Menu for Reportes -->
@@ -35,14 +35,14 @@
             </Menu>
 
             <!-- Menu for Exit -->
-            <Menu text="Salir">
-                <MenuItem text="Cerrar aplicación" />
+            <Menu onShowing="#handleSalir" text="Salir">
+                <MenuItem onAction="#handleSalir" text="Cerrar aplicación" />
             </Menu>
         </MenuBar>
     </top>
 
     <!-- Aquí estará el contenido principal que cambiará dinámicamente -->
     <center>
-        <BorderPane fx:id="mainContent" prefHeight="575.0" prefWidth="804.0" />
+        <BorderPane fx:id="mainContent" prefHeight="575.0" prefWidth="804.0" style="-fx-background-color: lightsteelblue;" />
     </center>
 </BorderPane>

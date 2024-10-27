@@ -1,28 +1,57 @@
 package model;
 
-public class Producto {
-	//FALTA MODIFICAR
-	
-    private int id;
-    private String nombre;
-    private String email;
+import java.math.BigDecimal;
 
-    // Constructor, getters y setters
-    public Producto(int id, String nombre, String email) {
-        this.id = id;
-        this.nombre = nombre;
-        this.email = email;
+public class Producto extends EntityModel {
+    private String nombre;
+    private String descripcion;
+    private BigDecimal precio;
+    private EnumTipoProducto tipo;
+
+    // Constructor
+    public Producto(int id, String nombre, String descripcion, BigDecimal precio, EnumTipoProducto categoria) {
+    	super(id);
+    	this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.tipo = categoria;
     }
 
-    public int getId() {
+    // Getters y Setters
+    public int obtenerId() {
         return id;
     }
 
-    public String getNombre() {
+    public String obtenerNombre() {
         return nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public String obtenerDescripcion() {
+        return descripcion;
     }
+
+    public BigDecimal obtenerPrecio() {
+        return precio;
+    }
+
+    public EnumTipoProducto obtenerTipo() {
+        return tipo;
+    }
+    
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+    
+    public void setTipo(EnumTipoProducto tipo) {
+        this.tipo = tipo;
+    }
+
 }

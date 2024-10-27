@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.PedidoController">
+<AnchorPane xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.pedido.PedidoController">
     <children>
         <!-- Contenedor principal -->
         <VBox prefHeight="575.0" prefWidth="800.0" spacing="10" style="-fx-padding: 20; ">
@@ -17,18 +17,28 @@
             
             <!-- Botones de CRUD -->
             <HBox spacing="10">
-                <Button onAction="#crearPedido" text="Crear" />
-                <Button onAction="#leerPedido" text="Leer" />
-                <Button onAction="#actualizarPedido" text="Actualizar" />
-                <Button onAction="#eliminarPedido" text="Eliminar" />
+                <Button onAction="#crear" text="Crear" />
+                <Button onAction="#ver" text="Ver" />
+                <Button onAction="#modificar" text="Modificar" />
+                <Button onAction="#eliminar" text="Eliminar" />
             </HBox>
             
             <!-- Tabla para mostrar Pedidos -->
-            <TableView fx:id="tablaPedidos">
+            <TableView fx:id="tabla" style="-fx-background-color: aliceblue; -fx-border-color: black;">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" />
-                    <TableColumn fx:id="colNombre" text="Nombre" />
-                    <TableColumn fx:id="colEmail" text="Email" />
+                    <TableColumn prefWidth="75.0" text="Cliente" >                   
+                  <columns>
+                  	<TableColumn fx:id="colClienteNombre" text="Nombre" />                    
+                  	<TableColumn fx:id="colClienteApellido" text="Apellido" />
+                    <TableColumn fx:id="colClienteDireccion" text="Direccion" />                                        	
+                  </columns>
+                  </TableColumn>
+                    <TableColumn fx:id="colCostoTotal" text="Total" />                    
+                    <TableColumn fx:id="colEstado" text="Estado" />       
+                    <TableColumn fx:id="colFormaPago" text="Forma de Pago" />                                 
+                    <TableColumn fx:id="colFechaInicio" text="Fecha Inicio" />
+                    <TableColumn fx:id="colFechaFin" text="Fecha Fin" />
                 </columns>
             </TableView>
         </VBox>

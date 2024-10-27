@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.ProductoController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.producto.ProductoController">
     <children>
         <!-- Contenedor principal -->
         <VBox prefHeight="575.0" prefWidth="800.0" spacing="10" style="-fx-padding: 20; ">
@@ -17,20 +17,22 @@
             
             <!-- Botones de CRUD -->
             <HBox spacing="10">
-                <Button onAction="#crearProducto" text="Crear" />
-                <Button onAction="#leerProducto" text="Leer" />
-                <Button onAction="#actualizarProducto" text="Actualizar" />
-                <Button onAction="#eliminarProducto" text="Eliminar" />
+                <Button onAction="#crear" text="Crear" />
+                <Button onAction="#ver" text="Ver" />
+                <Button onAction="#modificar" text="Modificar" />
+                <Button onAction="#eliminar" text="Eliminar" />
             </HBox>
             
             <!-- Tabla para mostrar Productos -->
-            <TableView fx:id="tablaProductos">
+            <TableView fx:id="tabla" style="-fx-background-color: aliceblue; -fx-border-color: black;">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" />
                     <TableColumn fx:id="colNombre" text="Nombre" />
-                    <TableColumn fx:id="colEmail" text="Email" />
+                    <TableColumn fx:id="colDescripcion" text="Descripción" />
+                    <TableColumn fx:id="colPrecio" text="Precio" />
+                    <TableColumn fx:id="colTipo" text="Tipo" />                    
                 </columns>
-            </TableView>
+            </TableView>           
         </VBox>
     </children>
 </AnchorPane>

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.UsuarioController">
+<AnchorPane xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.usuario.UsuarioController">
     <children>
         <!-- Contenedor principal -->
         <VBox prefHeight="575.0" prefWidth="800.0" spacing="10" style="-fx-padding: 20; ">
@@ -17,18 +17,22 @@
             
             <!-- Botones de CRUD -->
             <HBox spacing="10">
-                <Button onAction="#crearUsuario" text="Crear" />
-                <Button onAction="#leerUsuario" text="Leer" />
-                <Button onAction="#actualizarUsuario" text="Actualizar" />
-                <Button onAction="#eliminarUsuario" text="Eliminar" />
+                <Button onAction="#crear" text="Crear" />
+                <Button onAction="#ver" text="Ver" />
+                <Button onAction="#modificar" text="Modificar" />
+                <Button onAction="#eliminar" text="Eliminar" />
             </HBox>
             
             <!-- Tabla para mostrar usuarios -->
-            <TableView fx:id="tablaUsuarios">
+            <TableView fx:id="tabla" style="-fx-background-color: aliceblue; -fx-border-color: black;">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" />
                     <TableColumn fx:id="colNombre" text="Nombre" />
-                    <TableColumn fx:id="colEmail" text="Email" />
+                    <TableColumn fx:id="colApellido" text="Apellido" />
+               		<TableColumn fx:id="colEmail" text="Email" />
+               		<TableColumn fx:id="colPassword" text="Password" />
+               		<TableColumn fx:id="colSexo" text="Sexo" />
+               		<TableColumn fx:id="colRol" text="Rol" />
                 </columns>
             </TableView>
         </VBox>

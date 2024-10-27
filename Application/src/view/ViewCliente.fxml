@@ -8,27 +8,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.ClienteController">
+<AnchorPane xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cliente.ClienteController">
     <children>
         <!-- Contenedor principal -->
-        <VBox prefHeight="575.0" prefWidth="800.0" spacing="10" style="-fx-padding: 20; ">
+        <VBox prefHeight="575.0" prefWidth="800.0" spacing="10" style="-fx-padding: 20;">
             <!-- Título -->
             <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Gestión de Clientes" />
             
             <!-- Botones de CRUD -->
             <HBox spacing="10">
-                <Button onAction="#crearCliente" text="Crear" />
-                <Button onAction="#leerCliente" text="Leer" />
-                <Button onAction="#actualizarCliente" text="Actualizar" />
-                <Button onAction="#eliminarCliente" text="Eliminar" />
+                <Button onAction="#crear" text="Crear" />
+                <Button onAction="#ver" text="Ver" />
+                <Button onAction="#modificar" text="Modificar" />
+                <Button onAction="#eliminar" text="Eliminar" />
             </HBox>
             
             <!-- Tabla para mostrar Clientes -->
-            <TableView fx:id="tablaClientes">
+            <TableView fx:id="tabla" style="-fx-background-color: aliceblue; -fx-border-color: black;">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" />
                     <TableColumn fx:id="colNombre" text="Nombre" />
-                    <TableColumn fx:id="colEmail" text="Email" />
+                    <TableColumn fx:id="colApellido" text="Apellido" />
+	                <TableColumn fx:id="colTelefono" text="Telefono" />
+	                <TableColumn fx:id="colDireccion" text="Direccion" />
+	                <TableColumn fx:id="colLocalidad" text="Localidad" />
                 </columns>
             </TableView>
         </VBox>

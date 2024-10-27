@@ -7,13 +7,33 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Menu;
 import javafx.scene.layout.Pane;
+import model.EnumRol;
+import service.UsuarioService;
 
 public class MainController {
-
+	
+    protected final UsuarioService usuarioService = UsuarioService.getInstancia();
+    
+    @FXML
+    private Menu menuUsuarios;
+    
     @FXML
     private BorderPane mainContent; // Referencia al contenedor central
 
+    @FXML
+    private void initialize() {
+        // Cargar la vista de Pedidos por defecto
+        handlePedido();
+        var user = usuarioService.getUsuarioLogueado();
+        if(user.obtenerRol() != EnumRol.ADMINISTRADOR)
+        	menuUsuarios.setVisible(false);
+        else
+        	menuUsuarios.setVisible(true);
+        
+    }
+    
     // Manejar el clic en el menú de Usuarios
     @FXML
     private void handleUsuario() {
@@ -37,7 +57,8 @@ public class MainController {
  
     @FXML
     private void handleReporte() {
-        loadView("/view/ViewReporte.fxml");
+    	showAlert("En Desarrollo", "Contenido en desarrollo para nuevas versiones.");
+        //loadView("/view/ViewReporte.fxml");
     }
 
     @FXML
