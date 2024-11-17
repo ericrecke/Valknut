@@ -57,16 +57,11 @@ public class UsuarioController extends BaseController<Usuario> {
     @Override
     protected void saveForm(Usuario item) {
     	if(item != null) {
-    		//Items.set(item.obtenerId() - 1, item);
-    		usuarioService.modificar(item.obtenerId() - 1, item);
+    		usuarioService.modificar(item);
     	}
     	else {
-    		//Se setea un id segun la cantidad de listados porque es un array y no estamos usando la base todavia.
     		item = form.getItem();
-    		int id = Items.size();
-    		item.setId(id + 1);
-        	//Items.add(item);
-        	usuarioService.guardar(item);
+        	usuarioService.crear(item);
     	}
     }
     
@@ -110,7 +105,7 @@ public class UsuarioController extends BaseController<Usuario> {
         }
         var resultado = UtilsController.mostrarAlerta("Confirmación de Eliminación","Esta acción no se puede deshacer." , "¿Está seguro de que desea eliminar el Usuario seleccionado?");
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            usuarioService.eliminar(item);
+            usuarioService.eliminar(item.obtenerId());
             cargar();
         }       
     }

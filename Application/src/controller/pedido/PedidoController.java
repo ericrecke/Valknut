@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import model.Pedido;
+import model.PedidoProducto;
 import service.PedidoService;
 import java.util.Date;
 
@@ -32,8 +33,6 @@ public class PedidoController extends BaseController<Pedido> {
     private TableColumn<Pedido, String> colFechaFin;
     @FXML
     private TableColumn<Pedido, String> colEstado;
-
-    private final PedidoService pedidoService = new PedidoService();
 
     @Override
     protected void initialize() {
@@ -66,12 +65,10 @@ public class PedidoController extends BaseController<Pedido> {
     @Override
     protected void saveForm(Pedido item) {
         if (item != null) {
-            pedidoService.modificar(item.obtenerId() - 1, item);
+            pedidoService.modificar(item);
         } else {
             item = form.getItem();
-            int id = Items.size();
-            item.setId(id + 1);
-            pedidoService.guardar(item);
+            pedidoService.crear(item);
         }
         cargar();
     }
@@ -114,7 +111,7 @@ public class PedidoController extends BaseController<Pedido> {
         }
         var resultado = UtilsController.mostrarAlerta("Confirmación de Eliminación", "Esta acción no se puede deshacer.", "¿Está seguro de que desea eliminar el Pedido seleccionado?");
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            pedidoService.eliminar(item);
+            pedidoService.eliminar(item.obtenerId());
             cargar();
         }
     }

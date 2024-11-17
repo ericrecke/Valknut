@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import model.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -149,7 +150,8 @@ public class PedidoFormController extends BaseFormController<Pedido> {
                 fechaFin,
                 cmbEstadoPedido.getValue()
             );
-            pedidoService.guardar(item);
+            item.setProductos(new ArrayList<>(productosSeleccionados.values())); // Establecer productos
+            //pedidoService.crear(item);
         } else {
             item.setUsuario(usuarioLogueado);
             item.setCliente(clienteActual);
@@ -157,13 +159,8 @@ public class PedidoFormController extends BaseFormController<Pedido> {
             item.setFormaPago(cmbFormaPago.getValue());
             item.setFechaInicio(fechaInicio);
             item.setEstado(cmbEstadoPedido.getValue());
-            pedidoService.modificar(item.obtenerId(), item);
-        }
-
-        // Actualizar o agregar los productos del pedido
-        for (PedidoProducto pedidoProducto : listProductosSeleccionados.getItems()) {
-            pedidoProducto.setPedido(item); // Asegúrate de establecer el Pedido en PedidoProducto
-            pedidoService.guardarPedidoProducto(item, pedidoProducto);
+            item.setProductos(new ArrayList<>(productosSeleccionados.values())); // Establecer productos
+            //pedidoService.modificar(item);
         }
 
         guardado = true;
@@ -234,7 +231,7 @@ public class PedidoFormController extends BaseFormController<Pedido> {
     }
 
     private void cargarProductosDisponibles() {
-        tablaProductosDisponibles.setItems(FXCollections.observableArrayList(productoService.listar()));
+        tablaProductosDisponibles.setItems(FXCollections.observableArrayList(productoService.obtenerTodos()));
         tablaProductosDisponibles.refresh();
     }
 
@@ -259,7 +256,7 @@ public class PedidoFormController extends BaseFormController<Pedido> {
         txtTotal.setText(pedido.obtenerCostoTotal().toString());
 
         // Cargar los productos seleccionados
-        productosSeleccionados = pedidoService.obtenerProductosPorPedido(pedido).stream()
+        productosSeleccionados = pedido.obtenerProductos().stream()
                 .collect(Collectors.toMap(p -> p.obtenerProducto().obtenerId(), p -> p));
         actualizarListaProductosSeleccionados();
     }

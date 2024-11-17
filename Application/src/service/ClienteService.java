@@ -1,11 +1,18 @@
 package service;
 
 import model.Cliente;
+import service.dao.ClienteDAO;
 
+import java.util.List;
 import java.util.Optional;
 
-public class ClienteService extends BaseService<Cliente> {
+public class ClienteService {
     private static ClienteService instancia;
+    private final ClienteDAO clienteDAO;
+
+    private ClienteService() {
+        clienteDAO = new ClienteDAO();
+    }
 
     public static ClienteService getInstancia() {
         if (instancia == null) {
@@ -13,19 +20,28 @@ public class ClienteService extends BaseService<Cliente> {
         }
         return instancia;
     }
-    
-	public ClienteService(){
-		//Agregamos valores hardcoded por ahora.
-	    dataStore.add(new Cliente(1, "Juan", "Perez", "11345687", "Calle false 123", "Caseros"));
-	    dataStore.add(new Cliente(2, "Mateo", "Gonzales", "11445687", "Calle martinez 123", "San Martin"));        
-	}
-	
-    @Override
-    public Optional<Cliente> buscarPorId(int id) {
-        return dataStore.stream().filter(cliente -> cliente.obtenerId() == id).findFirst();
+
+    public List<Cliente> listar() {
+        return clienteDAO.listar();
+    }
+
+    public Optional<Cliente> ver(int id) {
+        return clienteDAO.ver(id);
+    }
+
+    public void crear(Cliente cliente) {
+        clienteDAO.crear(cliente);
+    }
+
+    public void modificar(Cliente cliente) {
+        clienteDAO.modificar(cliente);
+    }
+
+    public void eliminar(int id) {
+        clienteDAO.eliminar(id);
     }
 
     public Optional<Cliente> buscarPorDireccion(String direccion) {
-        return dataStore.stream().filter(cliente -> cliente.obtenerDireccion().equalsIgnoreCase(direccion)).findFirst();
+        return clienteDAO.buscarPorDireccion(direccion);
     }
 }

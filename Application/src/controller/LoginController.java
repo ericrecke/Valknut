@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import model.Sesion;
+import model.Usuario;
 import service.UsuarioService;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,12 +16,11 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 
-
 public class LoginController {
 
-	// Crear una instancia de UsuarioService
-	private final UsuarioService usuarioService = UsuarioService.getInstancia();	
-	
+    // Instancia del UsuarioService
+    private final UsuarioService usuarioService = UsuarioService.getInstancia();	
+
     @FXML
     private TextField mailField;
 
@@ -30,36 +29,48 @@ public class LoginController {
 
     @FXML
     private Label errorLabel;
-    
+
     @FXML
     public void iniciarSesion(ActionEvent event) {
-        String mail = mailField.getText();
-        String password = passwordField.getText();
-        //Si tiene cuenta Owner de Administrador, sino buscar login.
-        if (usuarioService.autenticar(mail, password)) {
-            System.out.println("Autenticación exitosa. Usuario logueado: " + usuarioService.getUsuarioLogueado().obtenerNombre());
-            try {
-                Parent mainViewParent = FXMLLoader.load(getClass().getResource("/view/ViewMain.fxml"));
-                Scene mainViewScene = new Scene(mainViewParent);
+        String mail = mailField.getText().trim();
+        String password = passwordField.getText().trim();
 
-                // Obtener el stage actual a través del evento
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(mainViewScene);
-                window.show();
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (mail.isEmpty() || password.isEmpty()) {
+            mostrarError("El correo y la contraseña no pueden estar vacíos.");
+            return;
+        }
+
+        // Autenticar usuario
+        if (usuarioService.autenticar(mail, password)) {
+            Usuario usuarioLogueado = usuarioService.getUsuarioLogueado();
+            System.out.println("Autenticación exitosa. Usuario logueado: " + usuarioLogueado.obtenerNombre());
+
+            // Cargar la vista principal
+            cargarVistaPrincipal(event);
         } else {
-            System.out.println("Fallo en la autenticación. Verifique sus credenciales.");
-            UtilsController.mostrarAlerta("Error", "Fallo en la autenticación. Verifique sus credenciales.", null);
+            mostrarError("Fallo en la autenticación. Verifique sus credenciales.");
         }
     }
-    
-    // Método para validar credenciales contra una base de datos (simulado por ahora)
-    private boolean validarCredencialesDesdeBaseDeDatos(String mail, String password) {
-        // Aquí iría la lógica para consultar la base de datos y verificar si las credenciales son válidas.
-        // Simulación por ahora: devuelve false
-        return false;
+
+    private void cargarVistaPrincipal(ActionEvent event) {
+        try {
+            // Cargar la vista principal
+            Parent mainViewParent = FXMLLoader.load(getClass().getResource("/view/ViewMain.fxml"));
+            Scene mainViewScene = new Scene(mainViewParent);
+
+            // Obtener el stage actual desde el evento
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(mainViewScene);
+            window.show();
+        } catch (IOException e) {
+            mostrarError("Ocurrió un error al cargar la vista principal.");
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarError(String mensaje) {
+        errorLabel.setText(mensaje);
+        errorLabel.setVisible(true);
+        System.out.println(mensaje); // Para depuración
     }
 }

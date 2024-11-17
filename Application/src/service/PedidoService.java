@@ -2,15 +2,20 @@ package service;
 
 import model.Pedido;
 import model.PedidoProducto;
+import service.dao.PedidoDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PedidoService extends BaseService<Pedido> {
+public class PedidoService {
     private static PedidoService instancia;
-    private final List<PedidoProducto> pedidoProductos = new ArrayList<>();
+    private final PedidoDAO pedidoDAO;
+
+    private PedidoService() {
+        pedidoDAO = new PedidoDAO();
+    }
 
     public static PedidoService getInstancia() {
         if (instancia == null) {
@@ -18,33 +23,24 @@ public class PedidoService extends BaseService<Pedido> {
         }
         return instancia;
     }
-    @Override
-    public Optional<Pedido> buscarPorId(int id) {
-        return dataStore.stream().filter(pedido -> pedido.obtenerId() == id).findFirst();
-    }
-    
-    // Método para guardar o actualizar la relación PedidoProducto
-    public void guardarPedidoProducto(Pedido pedido, PedidoProducto pedidoProducto) {
-        // Si ya existe una relación PedidoProducto para este pedido y producto, se actualiza
-        PedidoProducto existente = pedidoProductos.stream()
-                .filter(pp -> pp.obtenerPedido().obtenerId() == pedido.obtenerId() && 
-                              pp.obtenerProducto().obtenerId() == pedidoProducto.obtenerProducto().obtenerId())
-                .findFirst()
-                .orElse(null);
 
-        if (existente != null) {
-            // Actualizar la cantidad del producto en el pedido
-            existente.setCantidad(pedidoProducto.obtenerCantidad());
-        } else {
-            // Si no existe, se añade una nueva relación
-            pedidoProductos.add(pedidoProducto);
-        }
+    public List<Pedido> listar() {
+        return pedidoDAO.listar();
     }
 
-    // Método para obtener todos los productos asociados a un pedido específico
-    public List<PedidoProducto> obtenerProductosPorPedido(Pedido pedido) {
-        return pedidoProductos.stream()
-                .filter(pp -> pp.obtenerPedido().obtenerId() == pedido.obtenerId())
-                .collect(Collectors.toList());
+    public Optional<Pedido> ver(int id) {
+        return pedidoDAO.ver(id);
+    }
+
+    public void crear(Pedido pedido) {
+        pedidoDAO.crear(pedido);
+    }
+
+    public void modificar(Pedido pedido) {
+        pedidoDAO.modificar(pedido);
+    }
+
+    public void eliminar(int id) {
+        pedidoDAO.eliminar(id);
     }
 }

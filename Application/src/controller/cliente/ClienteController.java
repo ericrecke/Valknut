@@ -49,15 +49,11 @@ public class ClienteController extends BaseController<Cliente> {
     protected void saveForm(Cliente item) {
     	if(item != null) {
     		//Items.set(item.obtenerId() - 1, item);
-    		clienteService.modificar(item.obtenerId() - 1, item);
+    		clienteService.modificar(item);
     	}
     	else {
-    		//Se setea un id segun la cantidad de listados porque es un array y no estamos usando la base todavia.
     		item = form.getItem();
-    		int id = Items.size();
-    		item.setId(id + 1);
-        	//Items.add(item);
-    		clienteService.guardar(item);
+    		clienteService.crear(item);
     	}
     }
 

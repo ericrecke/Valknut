@@ -1,6 +1,5 @@
 package controller.producto;
 
-import java.math.BigDecimal;
 import controller.BaseController;
 import controller.UtilsController;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,105 +8,101 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import model.Producto;
-import model.Cliente;
-import model.EnumTipoProducto;
+import service.ProductoService;
 
 public class ProductoController extends BaseController<Producto> {
-       
+
+    @FXML
+    private TableView<Producto> tabla;
+
     @FXML
     private TableColumn<Producto, String> colNombre;
-    
+
     @FXML
     private TableColumn<Producto, String> colDescripcion;
-    
+
     @FXML
     private TableColumn<Producto, String> colPrecio;
-  
+
     @FXML
     private TableColumn<Producto, String> colTipo;
-    
-    @Override    
+
+    private final ProductoService productoService = ProductoService.getInstancia(); // Singleton de ProductoService
+
+    @Override
     protected void initialize() {
-    	view = "/view/ViewProductoForm.fxml";    	
+        view = "/view/ViewProductoForm.fxml";
         colId.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().obtenerId()).asObject());
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerNombre()));
         colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerDescripcion()));
         colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerPrecio().toString()));
-        colTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerTipo().obtenerTipoProducto()));
+        colTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerTipo().name()));
+
         // Cargar los datos en la tabla
         cargar();
     }
-    
+
     @Override
     protected void cargar() {
-        Items = FXCollections.observableArrayList(productoService.listar());
+        // Obtener datos desde la base de datos a través del servicio
+        Items = FXCollections.observableArrayList(productoService.obtenerTodos());
         tabla.setItems(Items);
         tabla.refresh();
     }
-    
-    
+
     @Override
     protected void saveForm(Producto item) {
-    	if(item != null) {
-    		//Items.set(item.obtenerId() - 1, item);
-    		productoService.modificar(item.obtenerId() - 1, item);
-    	}
-    	else {
-    		//Se setea un id segun la cantidad de listados porque es un array y no estamos usando la base todavia.
-    		item = form.getItem();
-    		int id = Items.size();
-    		item.setId(id + 1);
-        	//Items.add(item);
-    		productoService.guardar(item);
-    	}
-    }
-    
-
-    // Métodos para los botones CRUD
-    
-    @Override
-    protected  void crear() {
-    	tituloForm = "Crear Producto";
-    	cargarForm(null, true);
+        if (item != null) { // Actualizar un producto existente
+            productoService.actualizarProducto(item);
+        } else { // Crear un nuevo producto
+            item = form.getItem();
+            productoService.agregarProducto(item);
+        }
+        cargar(); // Refrescar la tabla
     }
 
     @Override
-    protected  void ver() {
-    	tituloForm = "Ver Producto";
+    protected void crear() {
+        tituloForm = "Crear Producto";
+        cargarForm(null, true);
+    }
+
+    @Override
+    protected void ver() {
+        tituloForm = "Ver Producto";
         Producto item = tabla.getSelectionModel().getSelectedItem();
         if (item == null) {
-        	UtilsController.mostrarAlerta("Selección requerida", "Por favor, seleccione un Producto para ver.", null);
+            UtilsController.mostrarAlerta("Selección requerida", "Por favor, seleccione un Producto para ver.", null);
             return;
         }
-            cargarForm(item, false);
+        cargarForm(item, false);
     }
 
     @Override
-    protected  void modificar() {
-    	tituloForm = "Modificar Producto";
+    protected void modificar() {
+        tituloForm = "Modificar Producto";
         Producto item = tabla.getSelectionModel().getSelectedItem();
         if (item == null) {
-        	UtilsController.mostrarAlerta("Selección requerida", "Por favor, seleccione un Producto para modificar.", null);
+            UtilsController.mostrarAlerta("Selección requerida", "Por favor, seleccione un Producto para modificar.", null);
             return;
         }
-            cargarForm(item, true);
+        cargarForm(item, true);
     }
 
     @Override
-    protected  void eliminar() {
-        // Lógica para eliminar un Producto
+    protected void eliminar() {
         Producto item = tabla.getSelectionModel().getSelectedItem();
         if (item == null) {
-        	UtilsController.mostrarAlerta("Selección requerida", "Por favor, seleccione un Producto para eliminar.", null);
+            UtilsController.mostrarAlerta("Selección requerida", "Por favor, seleccione un Producto para eliminar.", null);
             return;
         }
-        var resultado = UtilsController.mostrarAlerta("Confirmación de Eliminación","Esta acción no se puede deshacer." , "¿Está seguro de que desea eliminar el Producto seleccionado?");
+        var resultado = UtilsController.mostrarAlerta("Confirmación de Eliminación", "Esta acción no se puede deshacer.", "¿Está seguro de que desea eliminar el Producto seleccionado?");
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            // Si el usuario confirma, eliminar el Producto del ArrayList
-            Items.remove(item);
-            cargar();
-        }       
+            // Eliminar producto desde la base de datos
+            productoService.eliminarProducto(item.obtenerId());
+            cargar(); // Refrescar la tabla
+        }
     }
-
 }

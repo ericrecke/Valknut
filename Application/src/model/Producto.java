@@ -9,12 +9,12 @@ public class Producto extends EntityModel {
     private EnumTipoProducto tipo;
 
     // Constructor
-    public Producto(int id, String nombre, String descripcion, BigDecimal precio, EnumTipoProducto categoria) {
+    public Producto(int id, String nombre, String descripcion, BigDecimal precio, EnumTipoProducto tipo) {
     	super(id);
     	this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.tipo = categoria;
+        this.tipo = tipo;
     }
 
     // Getters y Setters

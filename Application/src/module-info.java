@@ -3,6 +3,7 @@ module ValknutApp {
 	requires javafx.fxml;
 	requires javafx.base;
 	requires javafx.graphics;
+	requires java.sql;
     opens controller to javafx.fxml;  // Esto es necesario para que FXMLLoader pueda acceder al paquete controller
     exports controller;
     //Controllers por individual.
